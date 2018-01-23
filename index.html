@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script src="dist/abtester.js"></script>
+	<script>
+		// Test analytics
+		/*
+		window.ga = function(...args) {
+		    console.log(args);
+		}
+		*/
+
+		var ABTest = new ABTester({
+			cookieName: 'FATest',
+			experimentName: 'Test experiment',
+			variants: [{
+					name: 'test 1',
+					callback: function () {
+						headerColor('red');
+					},
+					//redirect: 'http://google.com'
+
+				},
+				{
+					name: 'test 2',
+					//callback: test2,
+					redirect: 'http://google.com'
+				}
+			]
+		});
+	</script>
+</head>
+
+<body>
+	<h1 id="test-header">Test header</h1>
+	<script>
+		function headerColor(color) {
+			document.getElementById('test-header').style.color = color;
+		}
+
+		function test2() {
+			document.getElementById('test-header').style.color = 'blue';
+			document.getElementById('test-header').style['text-align'] = 'center';
+		}
+	</script>
+</body>
+
+</html>
