@@ -1,24 +1,30 @@
 export default class ABTester {
-    constructor (config) {
-        let variants = config.variants;
+    constructor (config) {    
+        this.variants = config.variants;
+        this.analytics = window.ga ? true : false;
+        /* Dev mode - return given variant */
+        if (this.devMode()) {
+            return this.setDevModeVariant();
+        }
         let variantId = this.readCookie(config.cookieName);
-        if (!variantId || !variants[variantId]) {
-            variantId = Math.floor(Math.random() * variants.length);
+        if (!variantId || !this.variants[variantId]) {
+            variantId = Math.floor(Math.random() * this.variants.length);
             this.setCookie(config.cookieName, variantId, 7);
         }
         this.experimentName = config.experimentName;
-        this.variant = variants[variantId];  
-        this.analytics = window.ga ? true : false;
-        if (this.variant.redirect && this.variant.redirect !== undefined) {
-            this.init();
-        } else {
-            window.onload = () => {
-                this.init();
-            }  
-        }      
+        this.variant = this.variants[variantId];  
+        this.init();     
     }
 
-    init () {
+    init() {
+        if (this.variant.redirect && this.variant.redirect !== undefined) {
+            this.runTest();
+        } else {
+            document.addEventListener("DOMContentLoaded", this.runTest.bind(this));
+        }            
+    }
+
+    runTest() {
         let variant = this.variant;
         if (variant.callback && variant.redirect) {
             return console.error("You can't define both a callback and a redirect");
@@ -33,7 +39,7 @@ export default class ABTester {
         }              
     }
 
-    readCookie (name) {
+    readCookie(name) {
         var nameEQ = name + '=',
             ca = document.cookie.split(';'),
             i,
@@ -55,6 +61,35 @@ export default class ABTester {
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
         var expires = "expires="+ d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    /*
+     * Gets a URL Parameter by name
+     */
+    getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+        var results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    /*
+     * Checks if a variant parameter is passed by a dev
+     */
+    devMode() {
+        if (this.getParameterByName('variant')) {
+            return true;
+        }
+        return false;
+    }
+
+    /*
+     * Sets up variant from the url parameter and runs test
+     */
+    setDevModeVariant() {
+        let variantId = this.getParameterByName('variant');
+        this.variant = this.variants[variantId];
+        this.init();
     }
 }
 
