@@ -20,7 +20,11 @@ export default class ABTester {
         if (this.variant.redirect && this.variant.redirect !== undefined) {
             this.runTest();
         } else {
-            document.addEventListener("DOMContentLoaded", this.runTest.bind(this));
+            if (document.readyState !== 'loading') {
+                this.runTest();
+            } else {
+                document.addEventListener("DOMContentLoaded", this.runTest.bind(this));
+            }          
         }            
     }
 
