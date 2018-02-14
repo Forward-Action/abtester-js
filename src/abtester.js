@@ -2,6 +2,7 @@ export default class ABTester {
     constructor (config) {    
         this.variants = config.variants;
         this.analytics = window.ga ? true : false;
+        this.experimentName = config.experimentName;
         /* Dev mode - return given variant */
         if (this.devMode()) {
             return this.setDevModeVariant();
@@ -11,7 +12,6 @@ export default class ABTester {
             variantId = Math.floor(Math.random() * this.variants.length);
             this.setCookie(config.cookieName, variantId, 7);
         }
-        this.experimentName = config.experimentName;
         this.variant = this.variants[variantId];  
         this.init();     
     }

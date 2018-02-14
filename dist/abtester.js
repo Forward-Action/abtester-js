@@ -101,6 +101,7 @@ var ABTester = function () {
 
         this.variants = config.variants;
         this.analytics = window.ga ? true : false;
+        this.experimentName = config.experimentName;
         /* Dev mode - return given variant */
         if (this.devMode()) {
             return this.setDevModeVariant();
@@ -110,7 +111,6 @@ var ABTester = function () {
             variantId = Math.floor(Math.random() * this.variants.length);
             this.setCookie(config.cookieName, variantId, 7);
         }
-        this.experimentName = config.experimentName;
         this.variant = this.variants[variantId];
         this.init();
     }
