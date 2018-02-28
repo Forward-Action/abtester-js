@@ -1,5 +1,11 @@
 # AB Test Script
 
+## Warning
+
+This script is currently in use on all GP petition pages. Be very careful before overwriting the hosted script with a new version.
+
+TODO - unit tests next time this is extended.
+
 ## Development
 
 You'll need node and npm to work on development of this script
