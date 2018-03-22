@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "jquery": "^3.2.1",
-    "popper.js": "^1.12.9"
+    "popper.js": "^1.12.9",
+    "url-search-params-polyfill": "^3.0.0"
   }
 }

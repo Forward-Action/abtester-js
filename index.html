@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
-	<script src="dist/abtester.min.js"></script>
+	<script src="dist/abtester.js"></script>
 	<script>
 		// Test analytics
 		/*
@@ -17,22 +17,36 @@
 
 		var ABTest = new ABTester({
 			cookieName: 'FATest',
-			experimentName: 'Test experiment',
+			experimentName: 'test experiment',
 			variants: [{
 					name: 'test 1',
 					callback: function () {
 						headerColor('red');
 					},
-					//redirect: 'http://google.com'
 				},
 				{
 					name: 'test 2',
-					/*
 					callback: function () {
 						headerColor('blue');
 					},
-					*/
-					redirect: 'http://google.com'
+				}
+			]
+		});
+
+		var ABTest2 = new ABTester({
+			cookieName: 'FATest2',
+			experimentName: 'test experiment 2',
+			variants: [{
+					name: 'test 1',
+					callback: function () {
+						fontSize('40px');
+					},
+				},
+				{
+					name: 'test 2',
+					callback: function () {
+						fontSize('12px');
+					},
 				}
 			]
 		});
@@ -46,9 +60,8 @@
 			document.getElementById('test-header').style.color = color;
 		}
 
-		function test2() {
-			document.getElementById('test-header').style.color = 'blue';
-			document.getElementById('test-header').style['text-align'] = 'center';
+		function fontSize(size) {
+			document.getElementById('test-header').style.fontSize = size;
 		}
 	</script>
 </body>

@@ -1,5 +1,8 @@
+import 'url-search-params-polyfill';
+
 export default class ABTester {
     constructor (config) {    
+        this.params = new URLSearchParams(window.location.search);
         this.variants = config.variants;
         this.analytics = window.ga ? true : false;
         this.experimentName = config.experimentName;
@@ -16,6 +19,11 @@ export default class ABTester {
         this.init();     
     }
 
+    /* 
+     * Decies whether we can run the test now or we 
+     * need to wait for DOM content to be loaded.
+     */
+
     init() {
         if (this.variant.redirect && this.variant.redirect !== undefined) {
             this.runTest();
@@ -27,6 +35,11 @@ export default class ABTester {
             }          
         }            
     }
+
+    /*
+     * Check this test is valid, sends analytics
+     * and runs the test
+     */
 
     runTest() {
         let variant = this.variant;
@@ -42,6 +55,10 @@ export default class ABTester {
             return window.location = variant.redirect;
         }              
     }
+
+    /*
+     * Returns the value of the given cookie.
+     */ 
 
     readCookie(name) {
         var nameEQ = name + '=',
@@ -60,6 +77,11 @@ export default class ABTester {
         return null;
     }
 
+    /*
+     * Sets a cookie for the root path with the 
+     * given name, value and days duration.
+     */
+
     setCookie(cname, cvalue, exdays) {
         var d = new Date();
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -68,20 +90,11 @@ export default class ABTester {
     }
 
     /*
-     * Gets a URL Parameter by name
-     */
-    getParameterByName(name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-        var results = regex.exec(location.search);
-        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-    }
-
-    /*
      * Checks if a variant parameter is passed by a dev
      */
+
     devMode() {
-        if (this.getParameterByName('variant')) {
+        if (this.params.get(`variant[${this.experimentName}]`) || this.params.get('variant')) {
             return true;
         }
         return false;
@@ -90,8 +103,13 @@ export default class ABTester {
     /*
      * Sets up variant from the url parameter and runs test
      */
+
     setDevModeVariant() {
-        let variantId = this.getParameterByName('variant');
+        /* 
+         * Use the variant ID specified with an experiment name, if available
+         * Otherwise, use the simple variant parameter.
+         */
+        let variantId = this.params.get(`variant[${this.experimentName}]`) || this.params.get('variant');
         this.variant = this.variants[variantId];
         this.init();
     }
