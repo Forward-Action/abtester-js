@@ -1,6 +1,6 @@
 var webpack = require('webpack');
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var inProduction = (process.env.NODE_ENV === 'production');
 
 module.exports = {
@@ -12,30 +12,7 @@ module.exports = {
         library: 'ABTester'
     },
     module: {
-        rules: [
-            {
-                test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                    {
-                        loader: 'css-loader',
-                    }, 
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            plugins: function () {
-                                return [
-                                    require('autoprefixer')
-                                ];
-                            }
-                        }
-                    }, 
-                    {
-                        loader: 'sass-loader'
-                    }]
-                })
-            },    
+        rules: [   
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -44,37 +21,29 @@ module.exports = {
                     presets: ['env']
                 }
             },
-            {
-                test:  /\.(png|jpe?g|gif|svg)$/,
-                loaders: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: 'images/[name].[ext]'
-                        }
-                    },
-                    'img-loader'
-                ]
-            },
-            {
-                test:  /\.(eot|ttf|woff|woff2)$/,
-                loader: 'file-loader',
-                options: {
-                    name: 'fonts/[name].[ext]'
-                }
-            },
         ]
     },
     plugins: [
-        new ExtractTextPlugin('style.css'),
         new webpack.LoaderOptionsPlugin({
             minimize: inProduction
         }),
-    ]
+    ],
+    optimization: {
+        minimizer: []
+    }
 };
 
 if (inProduction) {
-    module.exports.plugins.push(
-        new webpack.optimize.UglifyJsPlugin()
+    module.exports.optimization.minimizer.push(
+        new UglifyJsPlugin({
+            cache: true,
+            parallel: true,
+            uglifyOptions: {
+            compress: false,
+            ecma: 6,
+            mangle: true
+            },
+            sourceMap: true
+        })
     )
 }
