@@ -10,10 +10,10 @@ export default class ABTester {
         if (this.devMode()) {
             return this.setDevModeVariant();
         }
-        let variantId = this.readCookie(config.cookieName);
+        let variantId = this.readCookie(config.experimentName);
         if (!variantId || !this.variants[variantId]) {
             variantId = Math.floor(Math.random() * this.variants.length);
-            this.setCookie(config.cookieName, variantId, 7);
+            this.setCookie(config.experimentName, variantId, 7);
         }
         this.variant = this.variants[variantId];  
         this.init();     
