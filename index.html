@@ -17,17 +17,19 @@
 
 		var ABTest = new ABTester({
 			cookieName: 'FATest',
-			experimentName: 'test experiment',
+			experimentName: 'Experiment 1',
 			variants: [{
-					name: 'test 1',
+					name: 'test 0',
 					callback: function () {
 						headerColor('red');
+						log('Experiment 1, variant 0 callback!');
 					},
 				},
 				{
-					name: 'test 2',
+					name: 'test 1',
 					callback: function () {
 						headerColor('blue');
+						log('Experiment 1, variant 1 callback!');
 					},
 				}
 			]
@@ -35,17 +37,26 @@
 
 		var ABTest2 = new ABTester({
 			cookieName: 'FATest2',
-			experimentName: 'test experiment 2',
+			experimentName: 'experiment 2',
 			variants: [{
-					name: 'test 1',
+					name: 'variant 0',
 					callback: function () {
 						fontSize('40px');
+						log('Experiment 2, variant 0 callback!');
 					},
 				},
 				{
-					name: 'test 2',
+					name: 'variant 1',
 					callback: function () {
 						fontSize('12px');
+						log('Experiment 2, variant 1 callback!');
+					},
+				},
+				{
+					name: 'variant 2',
+					callback: function () {
+						fontSize('12px');
+						log('Experiment 2, variant 2 callback!');
 					},
 				}
 			]
@@ -55,6 +66,9 @@
 
 <body>
 	<h1 id="test-header">Test header</h1>
+
+	<ul id="log"></ul>
+
 	<script>
 		function headerColor(color) {
 			document.getElementById('test-header').style.color = color;
@@ -62,6 +76,13 @@
 
 		function fontSize(size) {
 			document.getElementById('test-header').style.fontSize = size;
+		}
+
+		function log(message) {
+			var el = document.getElementById('log'),
+			elChild = document.createElement('li');
+			elChild.innerHTML = message;
+			el.appendChild(elChild);
 		}
 	</script>
 </body>
