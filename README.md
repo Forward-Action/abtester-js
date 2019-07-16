@@ -6,7 +6,8 @@ You'll need node and npm to work on development of this script
 
 * Clone this repo
 * Run `npm install`
-* Ensure you have webpack installed globally `npm install webpack -g`
+* `npm install webpack -g` webpack installed globally
+* `npm install uglifyjs-webpack-plugin -g` uglify installed globally
 * `npm run dev` to compile code
 * `npm run production` to make minified asset
 * `./nodule_modules/.bin/webpack --watch` to watch for changes
