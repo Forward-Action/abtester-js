@@ -7,8 +7,8 @@ You'll need node and npm to work on development of this script
 * Clone this repo
 * Run `npm install`
 * `npm run dev` to compile code
+* `npm run watch` to watch for changes
 * `npm run production` to make minified asset
-* `./nodule_modules/.bin/webpack --watch` to watch for changes
 
 ## Usage
 
