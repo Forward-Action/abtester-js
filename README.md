@@ -7,8 +7,8 @@ You'll need node and npm to work on development of this script
 * Clone this repo
 * Run `npm install`
 * `npm run dev` to compile code
+* `npm run watch` to watch for changes
 * `npm run production` to make minified asset
-* `./nodule_modules/.bin/webpack --watch` to watch for changes
 
 ## Usage
 
@@ -26,7 +26,7 @@ Your control must also be defined as a variant. For now, have it return an empty
 
 Though generally not advised, you can run multiple tests on a page by creating extra ABTester instances. Each must have a unique `experimentName` and `cookieName` value.
 
-## Paramters
+## Parameters
 
 An ABTester instance accepts the following parameters:
 
@@ -73,4 +73,3 @@ function headerColor(color) {
 To force a certain variant to run you can pass a URL parameter in the format of `variant={variantID}` (without curly braces) where variant ID is equal to the index of the experiment you want to run in the variants array.
 
 If you're running multiple tests on the page, then you should use a parameter in the format of `variant[{experimentName}]={variantID}` (without curly braces) where experimentName is equal to the experiment name value you gave and where variant ID is equal to the index of the experiment you want to run in the variants array.
-
