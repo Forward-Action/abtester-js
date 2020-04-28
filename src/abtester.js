@@ -1,10 +1,9 @@
 import 'url-search-params-polyfill';
 
 export default class ABTester {
-    constructor (config) {    
+    constructor(config) {
         this.params = new URLSearchParams(window.location.search);
         this.variants = config.variants;
-        this.analytics = window.ga ? true : false;
         this.experimentName = config.experimentName;
         /* Dev mode - return given variant */
         if (this.devMode()) {
@@ -15,8 +14,8 @@ export default class ABTester {
             variantId = Math.floor(Math.random() * this.variants.length);
             this.setCookie(config.cookieName, variantId, 7);
         }
-        this.variant = this.variants[variantId];  
-        this.init();     
+        this.variant = this.variants[variantId];
+        this.init();
     }
 
     /* 
@@ -32,12 +31,12 @@ export default class ABTester {
                 this.runTest();
             } else {
                 document.addEventListener("DOMContentLoaded", this.runTest.bind(this));
-            }          
-        }            
+            }
+        }
     }
 
     /*
-     * Check this test is valid, sends analytics
+     * Check this test is valid
      * and runs the test
      */
 
@@ -46,19 +45,16 @@ export default class ABTester {
         if (variant.callback && variant.redirect) {
             return console.error("You can't define both a callback and a redirect");
         }
-        if (this.analytics) {
-            ga('send', 'event', this.experimentName, variant.name);
-        }
         if (variant.callback) {
             return variant.callback.call(window, arguments);
         } else if (variant.redirect) {
             return window.location = variant.redirect;
-        }              
+        }
     }
 
     /*
      * Returns the value of the given cookie.
-     */ 
+     */
 
     readCookie(name) {
         var nameEQ = name + '=',
@@ -84,8 +80,8 @@ export default class ABTester {
 
     setCookie(cname, cvalue, exdays) {
         var d = new Date();
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        var expires = "expires="+ d.toUTCString();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
 
@@ -114,7 +110,3 @@ export default class ABTester {
         this.init();
     }
 }
-
-
-
-
