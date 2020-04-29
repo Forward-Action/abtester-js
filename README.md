@@ -15,7 +15,7 @@ You'll need node and npm to work on development of this script
 Include the abtester.min.js script into the head of the page from cloud storage:
 
 ```html
-<script src="https://storage.googleapis.com/fa-assets/abtest/abtester.min.js"></script>
+<script src="https://storage.googleapis.com/fa-assets/abtest/1.0.1/abtester.min.js"></script>
 ```
 
 Create a new instance of ABTester on your page. This should be as high up the page as possible but if you have other JS on the page that needs to run first (such as other DOM manipulation) then you should include it after that.
@@ -75,3 +75,11 @@ function headerColor(color) {
 To force a certain variant to run you can pass a URL parameter in the format of `variant={variantID}` (without curly braces) where variant ID is equal to the index of the experiment you want to run in the variants array.
 
 If you're running multiple tests on the page, then you should use a parameter in the format of `variant[{experimentName}]={variantID}` (without curly braces) where experimentName is equal to the experiment name value you gave and where variant ID is equal to the index of the experiment you want to run in the variants array.
+
+## Legacy
+
+If you want to use the legacy version, you can include the following:
+
+```html
+<script src="https://storage.googleapis.com/fa-assets/abtest/abtester.min.js"></script>
+```
