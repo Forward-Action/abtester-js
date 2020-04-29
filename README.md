@@ -33,6 +33,7 @@ An ABTester instance accepts the following parameters:
 ```javascript
 cookieName: (string|required)
 experimentName: (string|required)
+disableCookies: (boolean|optional)
 variants: (array|required)
 ```
 
@@ -50,6 +51,7 @@ redirect: (string|optional)
 var ABTest = new ABTester({
   cookieName: 'FATest',
   experimentName: 'Test experiment',
+  disableCookies: true,
   variants: [{
       name: 'test 1',
       callback: function () {
